@@ -1,13 +1,16 @@
 const express = require("express");
+const fsNative = require("fs");
 const fs = require("fs/promises");
 const path = require("path");
 const multer = require("multer");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const isServerlessRuntime = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+const writableBaseDir = isServerlessRuntime ? path.join("/tmp", "id-system") : __dirname;
 
-const dataDir = path.join(__dirname, "data");
-const uploadsDir = path.join(__dirname, "uploads");
+const dataDir = path.join(writableBaseDir, "data");
+const uploadsDir = path.join(writableBaseDir, "uploads");
 const requestsFile = path.join(dataDir, "requests.json");
 const validStatuses = new Set(["pending", "inprogress", "finished"]);
 
@@ -20,7 +23,11 @@ const patterns = {
 };
 
 const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, uploadsDir),
+  destination: (_req, _file, cb) => {
+    fsNative.mkdir(uploadsDir, { recursive: true }, (err) => {
+      cb(err, uploadsDir);
+    });
+  },
   filename: (_req, file, cb) => {
     const ext = path.extname(file.originalname || "").toLowerCase();
     const safeExt = ext === ".png" || ext === ".jpg" || ext === ".jpeg" ? ext : ".jpg";
@@ -181,7 +188,12 @@ async function cleanupOrphanUploadFiles() {
     if (photoName) referencedFilenames.add(photoName);
   }
 
-  const filesInUploads = await fs.readdir(uploadsDir);
+  let filesInUploads = [];
+  try {
+    filesInUploads = await fs.readdir(uploadsDir);
+  } catch {
+    return;
+  }
   for (const filename of filesInUploads) {
     if (referencedFilenames.has(filename)) continue;
 
@@ -430,14 +442,22 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ errors: ["Internal server error."] });
 });
 
-ensureStorage()
-  .then(async () => {
-    await cleanupOrphanUploadFiles();
-    app.listen(PORT, () => {
-      console.log(`ID system running at http://localhost:${PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.error("Failed to start server:", error);
-    process.exit(1);
+if (isServerlessRuntime) {
+  ensureStorage().then(cleanupOrphanUploadFiles).catch((error) => {
+    console.error("Serverless bootstrap warning:", error);
   });
+} else {
+  ensureStorage()
+    .then(async () => {
+      await cleanupOrphanUploadFiles();
+      app.listen(PORT, () => {
+        console.log(`ID system running at http://localhost:${PORT}`);
+      });
+    })
+    .catch((error) => {
+      console.error("Failed to start server:", error);
+      process.exit(1);
+    });
+}
+
+module.exports = app;
