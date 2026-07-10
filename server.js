@@ -109,7 +109,6 @@ function validateStudentFields(fields) {
   const errors = [];
 
   if (!fields.name) errors.push("Name is required.");
-  if (!fields.lrn) errors.push("LRN is required.");
 
   return errors;
 }
