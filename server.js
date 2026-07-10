@@ -110,11 +110,6 @@ function validateStudentFields(fields) {
 
   if (!fields.name) errors.push("Name is required.");
   if (!fields.lrn) errors.push("LRN is required.");
-  if (!fields.studentNumber) errors.push("Student Number is required.");
-  if (!fields.birthday) errors.push("Birthday is required.");
-  if (!fields.parentGuardian1) errors.push("Parent/Guardian Name 1 is required.");
-  if (!fields.parentsAddress) errors.push("Parents Address is required.");
-  if (!fields.contactNumber1) errors.push("Contact Number 1 is required.");
 
   return errors;
 }
