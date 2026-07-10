@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Teacher ID Requests</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page-wrap wide">
+      <section class="card">
+        <div class="admin-head">
+          <h1>Admin Panel: ID Requests</h1>
+          <button id="refresh-btn" type="button">Refresh</button>
+        </div>
+
+        <p class="muted">Review submitted requests, inspect full details, and update completion status.</p>
+        <p id="admin-message" class="message" aria-live="polite"></p>
+
+        <div class="admin-summary-grid" id="summary-grid">
+          <article class="summary-card">
+            <p class="summary-label">Total Requests</p>
+            <p class="summary-value" id="summary-total">0</p>
+          </article>
+          <article class="summary-card">
+            <p class="summary-label">Pending</p>
+            <p class="summary-value" id="summary-pending">0</p>
+          </article>
+          <article class="summary-card">
+            <p class="summary-label">In Progress</p>
+            <p class="summary-value" id="summary-inprogress">0</p>
+          </article>
+          <article class="summary-card">
+            <p class="summary-label">Finished</p>
+            <p class="summary-value" id="summary-finished">0</p>
+          </article>
+          <article class="summary-card">
+            <p class="summary-label">Students</p>
+            <p class="summary-value" id="summary-student">0</p>
+          </article>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Name</th>
+                <th>ID Number</th>
+                <th>Guardian</th>
+                <th>Contact</th>
+                <th>Status</th>
+                <th>Image</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="requests-body">
+              <tr>
+                <td colspan="8" class="muted">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Request Details</h2>
+        <p class="muted">Click View Details in a row to inspect full information.</p>
+        <div id="details-panel" class="details-panel muted">No request selected.</div>
+      </section>
+    </main>
+
+    <script src="/admin.js" defer></script>
+  </body>
+</html>

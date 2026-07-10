@@ -1,0 +1,17 @@
+{
+  "name": "id-system",
+  "version": "1.0.0",
+  "description": "Teacher ID request form with local JSON storage",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "multer": "^2.2.0"
+  }
+}

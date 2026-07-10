@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ID Request Form</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page-wrap wide requester-layout">
+      <aside class="card sidebar-card">
+        <h2>Request Type</h2>
+        <p class="muted">Choose what ID request form to submit.</p>
+        <div class="nav-list">
+          <button class="request-nav-btn active" type="button" data-target="teacher-panel">Teacher Request</button>
+          <button class="request-nav-btn" type="button" data-target="student-panel">Student Request</button>
+          <button class="request-nav-btn" type="button" data-target="status-panel">Check Status</button>
+        </div>
+      </aside>
+
+      <section class="card form-card">
+        <div id="teacher-panel" class="request-panel active" aria-labelledby="teacher-heading">
+          <h1 id="teacher-heading">Teacher ID Request Form</h1>
+          <p class="muted">Please complete all required fields and upload your e-signature (PNG/JPG).</p>
+
+          <form id="teacher-form" enctype="multipart/form-data" novalidate>
+            <div class="grid two-col">
+              <label>
+                <span>Name *</span>
+                <input type="text" name="name" required />
+              </label>
+
+              <label>
+                <span>Employee Number *</span>
+                <input type="text" name="employeeNumber" required />
+              </label>
+
+              <label>
+                <span>BIR TIN (optional)</span>
+                <input type="text" name="birTin" placeholder="xxx-xxx-xxx" pattern="\d{3}-\d{3}-\d{3}" />
+              </label>
+
+              <label>
+                <span>SSS No (optional)</span>
+                <input type="text" name="sssNo" placeholder="xx-xxxxxxx-x" pattern="\d{2}-\d{7}-\d" />
+              </label>
+
+              <label>
+                <span>Philhealth No (optional)</span>
+                <input type="text" name="philhealthNo" placeholder="xx-xxxxxxxxx-x" pattern="\d{2}-\d{9}-\d" />
+              </label>
+
+              <label>
+                <span>Pag-ibig No (optional)</span>
+                <input type="text" name="pagibigNo" placeholder="xxxx-xxxx-xxxx" pattern="\d{4}-\d{4}-\d{4}" />
+              </label>
+            </div>
+
+            <label>
+              <span>E-signature (PNG/JPG) *</span>
+              <input type="file" name="eSignature" accept=".png,.jpg,.jpeg,image/png,image/jpeg" required />
+            </label>
+
+            <hr />
+
+            <div class="grid two-col">
+              <label>
+                <span>Guardian Name *</span>
+                <input type="text" name="guardianName" required />
+              </label>
+
+              <label>
+                <span>Contact Number *</span>
+                <input type="text" name="contactNumber" required />
+              </label>
+            </div>
+
+            <label>
+              <span>Guardian Address *</span>
+              <textarea name="guardianAddress" rows="3" required></textarea>
+            </label>
+
+            <button type="submit">Submit Teacher Request</button>
+            <p id="teacher-message" class="message" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div id="student-panel" class="request-panel" aria-labelledby="student-heading" hidden>
+          <h1 id="student-heading">Student ID Request Form</h1>
+          <p class="muted">Complete student information below. You can add one or two parent/guardian names and contacts.</p>
+
+          <form id="student-form" novalidate>
+            <div class="grid two-col">
+              <label>
+                <span>Name *</span>
+                <input type="text" name="name" required />
+              </label>
+
+              <label>
+                <span>LRN *</span>
+                <input type="text" name="lrn" required />
+              </label>
+
+              <label>
+                <span>Student Number *</span>
+                <input type="text" name="studentNumber" required />
+              </label>
+
+              <label>
+                <span>Birthday *</span>
+                <input type="date" name="birthday" required />
+              </label>
+
+              <label>
+                <span>Parent/Guardian Name 1 *</span>
+                <input type="text" name="parentGuardian1" required />
+              </label>
+
+              <label>
+                <span>Parent/Guardian Name 2 (optional)</span>
+                <input type="text" name="parentGuardian2" />
+              </label>
+
+              <label>
+                <span>Contact Number 1 *</span>
+                <input type="text" name="contactNumber1" required />
+              </label>
+
+              <label>
+                <span>Contact Number 2 (optional)</span>
+                <input type="text" name="contactNumber2" />
+              </label>
+            </div>
+
+            <label>
+              <span>Parents Address *</span>
+              <textarea name="parentsAddress" rows="3" required></textarea>
+            </label>
+
+            <label>
+              <span>Student Picture (optional, PNG/JPG)</span>
+              <input type="file" name="studentPhoto" accept=".png,.jpg,.jpeg,image/png,image/jpeg" />
+            </label>
+
+            <button type="submit">Submit Student Request</button>
+            <p id="student-message" class="message" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div id="status-panel" class="request-panel" aria-labelledby="status-heading" hidden>
+          <h1 id="status-heading">Request Status</h1>
+          <p class="muted">Enter your Request ID to check current status.</p>
+
+          <form id="status-form" novalidate>
+            <label>
+              <span>Request ID *</span>
+              <input type="text" name="requestId" placeholder="REQ-..." required />
+            </label>
+            <button type="submit">Check Status</button>
+            <p id="status-message" class="message" aria-live="polite"></p>
+          </form>
+
+          <div id="status-result" class="details-panel muted">No status checked yet.</div>
+        </div>
+      </section>
+    </main>
+
+    <div id="success-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+      <div class="modal-content">
+        <h2 id="modal-title">Submission Complete</h2>
+        <p id="modal-copy">Your ID request was submitted successfully.</p>
+        <button id="close-modal-btn" type="button">OK</button>
+      </div>
+    </div>
+
+    <script src="/teacher.js" defer></script>
+  </body>
+</html>
